@@ -12,15 +12,12 @@ const port = process.env.PORT || 1000;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://facebook-client.herokuapp.com/login",
-    ],
+    origin: ["https://facebook-client.herokuapp.com"],
     methods: ["GET", "POST"],
     credentials: true,
   })
 );
-
+console.log(123);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
