@@ -50,8 +50,4 @@ const Accounts = sequelize.define(
 (async () => {
   await Accounts.sync({ alter: true });
 })();
-Accounts.associate = (models) => {
-  Accounts.hasMany(models.Posts, { as: "posts", foreginKey: "idAccounts" });
-};
-
 module.exports = Accounts;

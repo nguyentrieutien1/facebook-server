@@ -1,23 +1,15 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("./../db/connect");
-const Comments = sequelize.define("Comments", {
+const sequelize = require("../db/connect");
+const CommentLikes = sequelize.define("CommentLikes", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  comment: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  time: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  postId: {
+  commentId: {
     type: DataTypes.INTEGER,
     references: {
-      model: "Posts",
+      model: "comments",
       key: "id",
     },
   },
@@ -38,6 +30,6 @@ const Comments = sequelize.define("Comments", {
   },
 });
 (async () => {
-  await Comments.sync();
+  await CommentLikes.sync();
 })();
-module.exports = Comments;
+module.exports = CommentLikes;

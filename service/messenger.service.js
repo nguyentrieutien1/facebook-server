@@ -31,5 +31,36 @@ class Messenger {
       };
     }
   };
+  getMessList = async (myId) => {
+    console.log("myId", myId);
+    const messegerList = await sequelize.query(
+      `SELECT * ,accounts.id as accountId FROM messengers LEFT JOIN accounts on messengers.myId = accounts.id or  messengers.friendId = accounts.id where messengers.myId = ${myId} or messengers.friendId = ${myId}`,
+      {
+        type: QueryTypes.SELECT,
+        nest: true,
+      }
+    );
+    // const listFriendId = [];
+    // messegerList.filter((mess) => {
+    //   listFriendId.push(mess.myId);
+    //   listFriendId.push(mess.friendId);
+    // });
+    // const setListFriend = new Set(listFriendId);
+    // const filterListFriendId = Array.from(setListFriend);
+    // const messObj = {};
+    // filterListFriendId.forEach((id) => {
+    //   if (id !== myId) {
+    //     const mess = messegerList.filter((messengers) => {
+    //       if()
+    //       return (
+    //         (messengers.myId === id && messengers.friendId === myId) ||
+    //         (messengers.myId === myId && messengers.friendId === id)
+    //       );
+    //     });
+    //     messObj[id] = mess[mess.length - 1];
+    //   }
+    // });
+    return messObj;
+  };
 }
 module.exports = new Messenger();

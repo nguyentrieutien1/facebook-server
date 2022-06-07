@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("./../db/connect");
-const Comments = sequelize.define("Comments", {
+const sequelize = require("../db/connect");
+const CommentChildrens = sequelize.define("CommentChildrens", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -14,10 +14,10 @@ const Comments = sequelize.define("Comments", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  postId: {
+  commentParentId: {
     type: DataTypes.INTEGER,
     references: {
-      model: "Posts",
+      model: "comments",
       key: "id",
     },
   },
@@ -38,6 +38,6 @@ const Comments = sequelize.define("Comments", {
   },
 });
 (async () => {
-  await Comments.sync();
+  await CommentChildrens.sync();
 })();
-module.exports = Comments;
+module.exports = CommentChildrens;

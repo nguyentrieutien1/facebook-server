@@ -28,7 +28,7 @@ class PostService {
         }
       );
       const commentList = await sequelize.query(
-        `SELECT *,comments.time as timeComment  from comments LEFT JOIN posts on comments.postId = posts.id 
+        `SELECT *,comments.time as timeComment, comments.id as commentId  from comments LEFT JOIN posts on comments.postId = posts.id 
 LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC;`,
         {
           type: QueryTypes.SELECT,
@@ -42,10 +42,42 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
           nest: true,
         }
       );
+      const commentChildLists = await sequelize.query(
+        "SELECT *, commentchildrens.comment as commentChild, commentchildrens.time as timeChild  from commentchildrens LEFT JOIN comments on commentchildrens.commentParentId = comments.id LEFT JOIN accounts on commentchildrens.accountId = accounts.id ORDER BY commentchildrens.id DESC ",
+        {
+          type: QueryTypes.SELECT,
+          nest: true,
+        }
+      );
+      const commentLikeList = await sequelize.query(
+        "SELECT * from commentlikes LEFT JOIN accounts on commentlikes.accountId = accounts.id",
+        {
+          type: QueryTypes.SELECT,
+          nest: true,
+        }
+      );
+      // return {
+      //   commentList,
+      //   commentChildLists,
+      // };
       const newPostList = postList.map((post) => {
         const comments = [];
         const likes = [];
         commentList.forEach((comment) => {
+          const commentChildList = [];
+          const commentLikes = [];
+          commentChildLists.forEach((commentChil) => {
+            if (comment.commentId === commentChil.commentParentId) {
+              commentChildList.push(commentChil);
+            }
+            comment.commentChildList = commentChildList;
+          });
+          commentLikeList.forEach((commentLike) => {
+            if (comment.commentId === commentLike.commentId) {
+              commentLikes.push(commentLike);
+            }
+            comment.commentLikes = commentLikes;
+          });
           if (post.postId === comment.postId) {
             comments.push(comment);
           }

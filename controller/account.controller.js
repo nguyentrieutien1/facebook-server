@@ -24,7 +24,6 @@ class Account {
       const result = await accountService.loginAccount({ email, password });
       req.session.account = { email, password };
       req.session.save(() => {
-        console.log(`Save data successfully `);
       });
       return res.json(result);
     } catch (error) {

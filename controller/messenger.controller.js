@@ -23,5 +23,10 @@ class Messenger {
       console.log(error);
     }
   };
+  getMessList = async (req, res) => {
+    const { myId } = req.params;
+    const result = await messengerService.getMessList(+myId);
+    return res.json(result);
+  };
 }
 module.exports = new Messenger();

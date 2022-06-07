@@ -4,7 +4,6 @@ module.exports = {
     return await bcrypt.hashSync(password, 10);
   },
   compare: async (password, comparePassword) => {
-    console.log(password, comparePassword);
     return await bcrypt.compare(password, comparePassword);
   },
 };
