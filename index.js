@@ -26,7 +26,6 @@ app.use(
     cookie: { maxAge: 600000 },
   })
 );
-
 route(app);
 table.create().then(() => {
   console.log(`create table successfully !`);

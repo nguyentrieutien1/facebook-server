@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./../db/connect");
+const time = require("./../helpers/format_time");
 const Messengers = sequelize.define("Messengers", {
   id: {
     type: DataTypes.INTEGER,
@@ -9,6 +10,11 @@ const Messengers = sequelize.define("Messengers", {
   messenger: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  time: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: time(),
   },
   myId: {
     type: DataTypes.INTEGER,
