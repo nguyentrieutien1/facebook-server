@@ -18,7 +18,6 @@ class Messenger {
     }
   };
   createMess = async ({ messenger, friendId, myId }) => {
-    console.log(messenger, friendId, myId);
     try {
       await MessengerModel.create({
         messenger,
@@ -113,21 +112,15 @@ class Messenger {
     }
   };
   countMess = async (id) => {
-    console.log(id);
     const result = await this.getMessList(+id);
     const arr = [];
     for (const key in result) {
       arr.push(result[key]);
     }
-    console.log(
-      "length",
-      arr.filter((arr) => arr.seen == false && arr.friendId === +id).length
-    );
     return arr.filter((arr) => arr.seen == false && arr.friendId === +id)
       .length;
   };
   hanldeUpdateAllMess = async (myId, friendId) => {
-    console.log(friendId);
     const result = await this.getMessPartner({ myId, friendId });
     if (result.length > 0) {
       const data = result;

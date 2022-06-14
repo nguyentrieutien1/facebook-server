@@ -10,8 +10,10 @@ module.exports = {
       socket.on("join_room", ({ friendId }) => {
         socket.join(`${friendId}`);
       });
+      socket.on("tag_comment", (id) => {
+        socket.to(`${id}`).emit("tag_comment");
+      });
       socket.on("send_mess", ({ messenge, friendId, myId }) => {
-        console.log(messenge, friendId, myId);
         socket.to(`${friendId}`).to(`${myId}`).emit("revice_mess", messenge);
         socket.to(`${myId}`).emit("mess_list_server");
       });
@@ -25,6 +27,7 @@ module.exports = {
       socket.on("handle_entering_client", ({ value, friendId }) => {
         socket.to(`${friendId}`).emit("handle_entering_server", { value });
       });
+
       socket.on("handle_get_back_post", () => {
         socket.broadcast.emit("handle_get_back_post_server");
       });
@@ -35,7 +38,8 @@ module.exports = {
         socket.broadcast.emit("comment_children_server");
       });
       socket.on("like_comment_client", () => {
-        socket.broadcast.emit("like_comment_server");
+        socket.emit("like_comment_server");
+        socket.broadcast.emit("comment_like_child_server");
       });
       socket.on("comment_like_child", () => {
         socket.broadcast.emit("comment_like_child_server");

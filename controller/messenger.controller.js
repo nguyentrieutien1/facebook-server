@@ -39,7 +39,6 @@ class Messenger {
   };
   hanldeUpdateAllMess = async (req, res) => {
     const { myId, friendId } = req.params;
-    console.log(myId, friendId);
     const result = await messengerService.hanldeUpdateAllMess(myId, friendId);
     return res.json(result);
   };
