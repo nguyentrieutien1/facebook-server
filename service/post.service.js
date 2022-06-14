@@ -21,7 +21,7 @@ class PostService {
   getAllPost = async () => {
     try {
       const postList = await sequelize.query(
-        `SELECT posts.id as postId, posts.postContent as postContent, posts.time as time,  accounts.username as username, accounts.avatar as avatar from posts LEFT JOIN accounts on accounts.id = posts.accountId `,
+        `SELECT posts.id as postId, posts.postContent as postContent, posts.time as time,accounts.id as accountId,  accounts.username as username, accounts.avatar as avatar from posts LEFT JOIN accounts on accounts.id = posts.accountId `,
         {
           type: QueryTypes.SELECT,
           nest: true,
@@ -43,7 +43,7 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
         }
       );
       const commentChildLists = await sequelize.query(
-        "SELECT *, commentchildrens.comment as commentChild, commentchildrens.time as timeChild  from commentchildrens LEFT JOIN comments on commentchildrens.commentParentId = comments.id LEFT JOIN accounts on commentchildrens.accountId = accounts.id ORDER BY commentchildrens.id DESC ",
+        "SELECT *, commentchildrens.comment as commentChild, commentchildrens.id as commentchildrensId,commentchildrens.time as timeChild  from commentchildrens LEFT JOIN comments on commentchildrens.commentParentId = comments.id LEFT JOIN accounts on commentchildrens.accountId = accounts.id ORDER BY commentchildrens.id DESC ",
         {
           type: QueryTypes.SELECT,
           nest: true,
@@ -51,6 +51,13 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
       );
       const commentLikeList = await sequelize.query(
         "SELECT * from commentlikes LEFT JOIN accounts on commentlikes.accountId = accounts.id",
+        {
+          type: QueryTypes.SELECT,
+          nest: true,
+        }
+      );
+      const commentLikeChildList = await sequelize.query(
+        "SELECT * FROM  CommentLikesChilds LEFT JOIN accounts on CommentLikesChilds.accountId = accounts.id",
         {
           type: QueryTypes.SELECT,
           nest: true,
@@ -67,6 +74,16 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
           const commentChildList = [];
           const commentLikes = [];
           commentChildLists.forEach((commentChil) => {
+            const commentLikeChildArr = [];
+            commentLikeChildList.forEach((commentLikeChild) => {
+              if (
+                commentLikeChild.commentChildId ==
+                commentChil.commentchildrensId
+              ) {
+                commentLikeChildArr.push(commentLikeChild);
+              }
+              commentChil.commentLikeChildArr = commentLikeChildArr;
+            });
             if (comment.commentId === commentChil.commentParentId) {
               commentChildList.push(commentChil);
             }

@@ -1,6 +1,7 @@
 const authPassword = require("../auth/hashPassword");
 const Accounts = require("../model/Account.model");
 const auth = require("../auth/authRegisterAccount");
+const postService = require("./../service/post.service");
 class AccountService {
   createAccount = async ({
     username,
@@ -99,9 +100,11 @@ class AccountService {
           message: `Account Not Found Há Há`,
         };
       }
+      const postList = await postService.getAllPost();
+      const myPost = postList.postList.filter((post) => post.accountId === +id);
       return {
-        statusCode: 200,
         account,
+        postList: myPost,
       };
     } catch (error) {
       console.log(error);

@@ -1,33 +1,19 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("./../db/connect");
-const time = require("./../helpers/format_time");
-const Messengers = sequelize.define("Messengers", {
+const sequelize = require("../db/connect");
+const CommentLikesChild = sequelize.define("CommentLikesChilds", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  messenger: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  seen: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  time: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: time(),
-  },
-  myId: {
+  commentChildId: {
     type: DataTypes.INTEGER,
     references: {
-      model: "Accounts",
+      model: "CommentChildrens",
       key: "id",
     },
   },
-  friendId: {
+  accountId: {
     type: DataTypes.INTEGER,
     references: {
       model: "Accounts",
@@ -43,8 +29,7 @@ const Messengers = sequelize.define("Messengers", {
     defaultValue: sequelize.literal("NOW()"),
   },
 });
-
 (async () => {
-  await Messengers.sync();
+  await CommentLikesChild.sync();
 })();
-module.exports = Messengers;
+module.exports = CommentLikesChild;

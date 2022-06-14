@@ -23,8 +23,7 @@ class Account {
       const { email, password } = req.body;
       const result = await accountService.loginAccount({ email, password });
       req.session.account = { email, password };
-      req.session.save(() => {
-      });
+      req.session.save(() => {});
       return res.json(result);
     } catch (error) {
       console.log(error);

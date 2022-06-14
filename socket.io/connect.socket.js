@@ -4,18 +4,20 @@ module.exports = {
     const io = socket(server);
     io.on("connection", function (socket) {
       socket.on("join_my_room", (join_my_room) => {
+        console.log(`${join_my_room} joined`);
         socket.join(`${join_my_room}`);
       });
       socket.on("join_room", ({ friendId }) => {
         socket.join(`${friendId}`);
       });
       socket.on("send_mess", ({ messenge, friendId, myId }) => {
+        console.log(messenge, friendId, myId);
         socket.to(`${friendId}`).to(`${myId}`).emit("revice_mess", messenge);
         socket.to(`${myId}`).emit("mess_list_server");
-        socket.broadcast.emit("mess_list_server");
       });
       socket.on("create_post_client", () => {
         socket.emit("create_post_server");
+        socket.broadcast.emit("create_post_server");
       });
       socket.on("handle_notify_client", ({ value, className }) => {
         socket.broadcast.emit("handle_notify_server", { value, className });
@@ -34,6 +36,10 @@ module.exports = {
       });
       socket.on("like_comment_client", () => {
         socket.broadcast.emit("like_comment_server");
+      });
+      socket.on("comment_like_child", () => {
+        socket.broadcast.emit("comment_like_child_server");
+        socket.emit("comment_like_child_server");
       });
     });
   },
