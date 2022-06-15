@@ -2,12 +2,14 @@ const postService = require("../service/post.service");
 
 class PostController {
   createPost = async (req, res) => {
+    console.log("req.body", req.body);
     try {
-      const { status, postContent, accountId } = req.body;
+      const { status, postContent, accountId, images } = req.body;
       const result = await postService.createPost({
         status,
         postContent,
         accountId,
+        images,
       });
       setTimeout(() => {
         return res.json(result);
@@ -19,6 +21,9 @@ class PostController {
   getAllPost = async (req, res) => {
     const result = await postService.getAllPost();
     return res.json(result);
+  };
+  createImg = async (req, res) => {
+    return res.json({ statusCode: 200 });
   };
 }
 module.exports = new PostController();

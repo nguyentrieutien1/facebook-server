@@ -15,6 +15,9 @@ const Posts = sequelize.define("Posts", {
     allowNull: true,
   },
   time: { type: DataTypes.STRING, allowNull: true },
+  images: {
+    type: DataTypes.JSON,
+  },
   accountId: {
     type: DataTypes.INTEGER,
     references: {

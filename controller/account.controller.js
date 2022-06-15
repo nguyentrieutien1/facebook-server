@@ -46,5 +46,14 @@ class Account {
       console.log(error);
     }
   };
+  upLoadAvt = async (req, res) => {
+    try {
+      return res.json({ statusCode: 200 });
+    } catch (error) {
+      console.log(error);
+
+      return res.json({ statusCode: 400 });
+    }
+  };
 }
 module.exports = new Account();

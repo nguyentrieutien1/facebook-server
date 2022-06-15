@@ -7,6 +7,7 @@ require("dotenv").config();
 const cors = require("cors");
 const table = require("./model/index");
 const socket = require("./socket.io/connect.socket");
+const path = require("path");
 var server = require("http").createServer(app);
 const port = process.env.PORT || 1000;
 
@@ -25,6 +26,8 @@ app.use(
     cookie: { maxAge: 600000 },
   })
 );
+const directory = path.join(__dirname, "images");
+app.use("/images", express.static(directory));
 route(app);
 table.create().then(() => {
   console.log(`create table successfully !`);

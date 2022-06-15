@@ -3,9 +3,15 @@ const { QueryTypes } = require("sequelize");
 const sequelize = require("../db/connect");
 const time = require("./../helpers/format_time");
 class PostService {
-  createPost = async ({ status, postContent, accountId }) => {
+  createPost = async ({ status, postContent, accountId, images }) => {
     try {
-      await PostModel.create({ status, postContent, accountId, time: time() });
+      await PostModel.create({
+        status,
+        postContent,
+        accountId,
+        images,
+        time: time(),
+      });
       return {
         statusCode: 200,
         message: `Successful post creation !`,
@@ -21,7 +27,7 @@ class PostService {
   getAllPost = async () => {
     try {
       const postList = await sequelize.query(
-        `SELECT posts.id as postId, posts.postContent as postContent, posts.time as time,accounts.id as accountId,  accounts.username as username, accounts.avatar as avatar from posts LEFT JOIN accounts on accounts.id = posts.accountId `,
+        `SELECT * ,posts.id as postId, posts.postContent as postContent, posts.time as time,accounts.id as accountId,  accounts.username as username, accounts.avatar as avatar from posts LEFT JOIN accounts on accounts.id = posts.accountId `,
         {
           type: QueryTypes.SELECT,
           nest: true,
