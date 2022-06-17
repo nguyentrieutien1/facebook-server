@@ -76,6 +76,7 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
       const newPostList = postList.map((post) => {
         const comments = [];
         const likes = [];
+        var countCmtChil = 0;
         commentList.forEach((comment) => {
           const commentChildList = [];
           const commentLikes = [];
@@ -94,6 +95,7 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
               commentChildList.push(commentChil);
             }
             comment.commentChildList = commentChildList;
+            countCmtChil += commentChildList.length;
           });
           commentLikeList.forEach((commentLike) => {
             if (comment.commentId === commentLike.commentId) {
@@ -112,6 +114,8 @@ LEFT JOIN accounts on comments.accountId = accounts.id ORDER BY comments.id DESC
         });
         post.likes = likes;
         post.comments = comments;
+        post.cmt = comments.length;
+        post.countCmtChil = countCmtChil;
         return post;
       });
       newPostList.sort((a, b) => b.postId - a.postId);
