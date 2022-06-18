@@ -53,6 +53,9 @@ module.exports = {
         console.log(friendId);
         socket.to(`${friendId}`).emit("handle_acp");
       });
+      socket.on("disconnect", (id) => {
+        console.log(id); // undefined
+      });
     });
   },
 };
