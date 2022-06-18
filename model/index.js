@@ -7,6 +7,7 @@ module.exports = {
     require("./Like.model");
     require("./Comment-children.model");
     require("./Comment-like-child.model");
+    require("./FriendList.model");
     console.log(`create table successffuly !`);
     try {
     } catch (error) {

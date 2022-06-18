@@ -6,6 +6,7 @@ const like = require("./like.route");
 const commentChildren = require("./comment-children");
 const commentLike = require("./comment-like.route");
 const commentLikeChild = require("./comment-like-child.route");
+const friend = require("./friend.route");
 const route = (app) => {
   app.use("/", account);
   app.use("/", messenger);
@@ -15,5 +16,6 @@ const route = (app) => {
   app.use("/", commentChildren);
   app.use("/", commentLike);
   app.use("/", commentLikeChild);
+  app.use("/", friend);
 };
 module.exports = route;

@@ -4,7 +4,7 @@ module.exports = {
     const io = socket(server);
     io.on("connection", function (socket) {
       socket.on("join_my_room", (join_my_room) => {
-        console.log(`${join_my_room} joined`);
+        socket.broadcast.emit("online", join_my_room);
         socket.join(`${join_my_room}`);
       });
       socket.on("join_room", ({ friendId }) => {
@@ -44,6 +44,14 @@ module.exports = {
       socket.on("comment_like_child", () => {
         socket.broadcast.emit("comment_like_child_server");
         socket.emit("comment_like_child_server");
+      });
+      socket.on("request_addfriend", (friendId) => {
+        console.log("request_addfriend");
+        socket.to(`${friendId}`).emit("request_addfriend");
+      });
+      socket.on("handle_acp", (friendId) => {
+        console.log(friendId);
+        socket.to(`${friendId}`).emit("handle_acp");
       });
     });
   },
