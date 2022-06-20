@@ -118,5 +118,24 @@ class FriendService {
       };
     }
   };
+  getAddFriendRequest = async ({ id }) => {
+    try {
+      const result = await sequelize.query(
+        `SELECT * FROM friends where myId = ${id} and accept = ${false}`,
+        {
+          type: QueryTypes.SELECT,
+          nest: true,
+        }
+      );
+      return {
+        statusCode: 200,
+        result,
+      };
+    } catch (error) {
+      return {
+        statusCode: 400,
+      };
+    }
+  };
 }
 module.exports = new FriendService();
