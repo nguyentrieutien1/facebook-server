@@ -137,5 +137,22 @@ class FriendService {
       };
     }
   };
+  handleRequestDelete = async ({ myId, friendId }) => {
+    try {
+      await friendModel.destroy({
+        where: {
+          myId,
+          friendId,
+        },
+      });
+      return {
+        statusCode: 200,
+      };
+    } catch (error) {
+      return {
+        statusCode: 400,
+      };
+    }
+  };
 }
 module.exports = new FriendService();

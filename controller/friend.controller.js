@@ -28,5 +28,10 @@ class FriendController {
     const result = await friendSercice.getAddFriendRequest({ id });
     return res.json(result);
   };
+  handleRequestDelete = async (req, res) => {
+    const { myId, friendId } = req.params;
+    const result = await friendSercice.handleRequestDelete({ myId, friendId });
+    return res.json(result);
+  };
 }
 module.exports = new FriendController();
