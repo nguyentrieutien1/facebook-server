@@ -35,7 +35,9 @@ module.exports = {
         socket.broadcast.emit("like_server");
       });
       socket.on("comment_children_client", () => {
+        console.log("comment_children_client");
         socket.broadcast.emit("comment_children_server");
+        socket.emit("comment_children_server");
       });
       socket.on("like_comment_client", () => {
         socket.emit("like_comment_server");

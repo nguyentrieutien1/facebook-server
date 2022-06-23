@@ -2,6 +2,8 @@ const authPassword = require("../auth/hashPassword");
 const Accounts = require("../model/Account.model");
 const auth = require("../auth/authRegisterAccount");
 const postService = require("./../service/post.service");
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 class AccountService {
   createAccount = async ({
     username,
@@ -108,6 +110,55 @@ class AccountService {
       };
     } catch (error) {
       console.log(error);
+    }
+  };
+  handleForgetPassord = async (email) => {
+    try {
+      const account = await Accounts.findOne({
+        where: {
+          email,
+        },
+      });
+      if (!account) {
+        return {
+          statusCode: 400,
+          message: "Account not fount !",
+        };
+      }
+      const tokenEmail = jwt.sign({ email }, "email", { expiresIn: "1h" });
+      console.log(tokenEmail);
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "tientrieu10111@gmail.com",
+          pass: "llixrvuwwrinjzvz",
+        },
+      });
+
+      var mailOptions = {
+        from: "tientrieu10111@gmail.com",
+        to: email,
+        subject: "Sending Email using Node.js",
+        html: `<a href="http://localhost:8000/account/token/${tokenEmail}/${email}">Hello World</a>`,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+      return {
+        statusCode: 200,
+        message: `Open email to check link confirm !`,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        statusCode: 400,
+        message: `=)))))))))))))))`,
+      };
     }
   };
 }

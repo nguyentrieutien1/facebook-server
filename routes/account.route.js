@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
         },
       }
     );
+    req.avatar = img;
   },
 });
 const upload = multer({ storage: storage });
@@ -26,7 +27,10 @@ router.post("/register", accountController.createAccount);
 router.post("/login", accountController.loginAccount);
 router.get("/account", accountController.getAllAccount);
 router.get("/account/:id", accountController.getDetailAccount);
-
+router.post("/account/forget", accountController.handleForgetPassord);
+router.patch("/account/update", accountController.handleUpdateAccount);
+router.get("/account/token/:token/:email", accountController.handleVerifyToken);
+router.post("/account/confirm", accountController.accountConfirm);
 router.put(
   "/account/upload/avatar/:id",
   upload.single("images"),
